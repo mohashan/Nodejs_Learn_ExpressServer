@@ -1,11 +1,15 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
-app.get('/', (req, res) => {
-    res.end('Hello World');
-});
 
-//app.use(static,)
+// to create a virtual path to serve static files
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'index.html'));
+});
 
 app.listen(3000, (err) => {
     if (err) {

@@ -12,5 +12,8 @@
     "simpleServer"
   ],
   "author": "Mohashan",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
 }

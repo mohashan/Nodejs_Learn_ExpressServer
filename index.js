@@ -1,11 +1,11 @@
-var express = require('express');
+import express from 'express';
 
-var app = express();
-app.get('/', function (req, res) {
+const app = express();
+app.get('/', (req, res) => {
     res.end('Hello World');
 });
 
-app.listen(3000, function (err) {
+app.listen(3000, (err) => {
     if (err) {
         return console.error(err);
     }

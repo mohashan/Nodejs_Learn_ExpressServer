@@ -29,6 +29,7 @@ app.get('/', (req, res, next) => {
 
 app.post('/api/product', productController.add);
 
+app.get('/api/product', productController.get);
 
 
 app.use((req) => {

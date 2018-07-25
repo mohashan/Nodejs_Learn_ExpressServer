@@ -20,11 +20,11 @@ app.get('/', (req, res, next) => {
 });
 
 app.use((req) => {
-    console.log('Reponse Processed in(ms) : ' + ((new Date()) - (req.ReceivedTimer?req.ReceivedTimer:(new Date()))).toString());
+    console.log('Reponse Processed in : ' + ((new Date()) - req.ReceivedTimer).toString() + ' ms');
 });
 
 app.use(function (err, req, res, next) {
-    console.log('Reponse Processed in(ms) : ' + ((new Date()) - req.ReceivedTimer).toString());
+    console.log('Reponse Processed in : ' + ((new Date()) - req.ReceivedTimer).toString() + ' ms');
 
     console.error(err);
     res.end('An Error Has Occured');

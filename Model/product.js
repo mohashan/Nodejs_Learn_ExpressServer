@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect(require('../Model/config').mongodb);
+mongoose.connect(require('../Model/config').mongodb).then(() => {
+    console.log('Successfully Connect to mongodb');
+}).catch((err) => { 
+    console.error('connection to mongodb failed : ' + err);
+});
 
 var schema = mongoose.Schema;
 var productSchema = new schema({

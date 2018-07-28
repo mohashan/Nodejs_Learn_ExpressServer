@@ -31,6 +31,11 @@ app.post('/api/product', productController.add);
 
 app.get('/api/product', productController.get);
 
+app.patch('/api/product', productController.updatePatch);
+
+app.put('/api/product', productController.updatePut);
+
+
 
 app.use((req) => {
     console.log('Reponse Processed in : ' + ((new Date()) - req.ReceivedTimer).toString() + ' ms');
@@ -42,6 +47,8 @@ app.use(function (err, req, res, next) {
     console.error(err);
     res.end('An Error Has Occured');
 });
+
+
 
 app.listen(3000, (err) => {
     if (err) {

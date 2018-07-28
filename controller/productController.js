@@ -32,3 +32,42 @@ module.exports.get = function (req, res) {
         });
     }
 };
+
+module.exports.updatePatch = (req, res) => {
+    if (!req.query || !req.query.id) {
+        return res.status(400).send('product id must be specified');
+    }
+    var newProduct = req.body;
+    if (!newProduct) {
+        return res.status(400).send('product fields to update must be specified');
+    }
+    Object.assign(newProduct, { lastModified: new Date()});
+    product.findByIdAndUpdate(req.query.id, {$set: newProduct}, (err, product) => {
+        if (err) {
+            return res.status(500).send('Update Failed : ' + err);
+        }
+        res.setHeader('x-item', req.url);
+        return res.status(204).json(product);
+    });
+
+};
+
+module.exports.updatePut = (req, res) => {
+    if (!req.query || !req.query.id) {
+        return res.status(400).send('product id must be specified');
+    }
+    var newProduct = req.body;
+    if (!newProduct) {
+        return res.status(400).send('product fields to update must be specified');
+    }
+
+    Object.assign(newProduct, { lastModified: new Date() });
+    product.findByIdAndUpdate(req.query.id, newProduct, {upsert:true} , (err, product) => {
+        if (err) {
+            return res.status(500).send('Update Failed : ' + err);
+        }
+        res.setHeader('x-item', req.url);
+        return res.status(204).json(product);
+    });
+
+};

@@ -35,6 +35,9 @@ app.patch('/api/product', productController.updatePatch);
 
 app.put('/api/product', productController.updatePut);
 
+app.delete('/api/product', productController.delete);
+
+
 
 
 app.use((req) => {

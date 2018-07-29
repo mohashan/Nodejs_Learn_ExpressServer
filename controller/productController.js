@@ -17,14 +17,14 @@ module.exports.get = function (req, res) {
     var condition = {};
     if (req.query && req.query.id) {
         product.findById(req.query.id, (err, pr) => {
-            if (err) {
+            if (err || !pr) {
                 return res.status(404).send('product not found');
             }
             return res.status(200).json(pr);
         });
     } else {
         product.find((err, prs) => {
-            if (err) {
+            if (err || !prs || prs.length < 1) {
                 return res.status(404).send('products not found');
             }
             res.setHeader('x-product-count', prs.length);
@@ -41,8 +41,12 @@ module.exports.updatePatch = (req, res) => {
     if (!newProduct) {
         return res.status(400).send('product fields to update must be specified');
     }
-    Object.assign(newProduct, { lastModified: new Date()});
-    product.findByIdAndUpdate(req.query.id, {$set: newProduct}, (err, product) => {
+    Object.assign(newProduct, {
+        lastModified: new Date()
+    });
+    product.findByIdAndUpdate(req.query.id, {
+        $set: newProduct
+    }, (err, product) => {
         if (err) {
             return res.status(500).send('Update Failed : ' + err);
         }
@@ -61,8 +65,12 @@ module.exports.updatePut = (req, res) => {
         return res.status(400).send('product fields to update must be specified');
     }
 
-    Object.assign(newProduct, { lastModified: new Date() });
-    product.findByIdAndUpdate(req.query.id, newProduct, {upsert:true} , (err, product) => {
+    Object.assign(newProduct, {
+        lastModified: new Date()
+    });
+    product.findByIdAndUpdate(req.query.id, newProduct, {
+        upsert: true
+    }, (err, product) => {
         if (err) {
             return res.status(500).send('Update Failed : ' + err);
         }
@@ -70,4 +78,17 @@ module.exports.updatePut = (req, res) => {
         return res.status(204).json(product);
     });
 
+};
+
+module.exports.delete = function (req, res) {
+    if (req.query && req.query.id) {
+        product.findByIdAndRemove(req.query.id, (err, pr) => {
+            if (err) {
+                return res.status(404).send('product not found');
+            }
+            return res.status(204).json(pr);
+        });
+    } else {
+        return res.status(404).send('product id must be specified.');
+    }
 };
